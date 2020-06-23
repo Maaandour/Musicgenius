@@ -1,0 +1,796 @@
+<html lang="ko" class="no-js">
+
+<head>
+    <title>3분 챌린지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/melonchart(90~99).js"></script>
+    <script type="text/javascript" src="js/melonchart(00~09).js"></script>
+    <script type="text/javascript" src="js/melonchart(10~19).js"></script>
+    <script type="text/javascript" src="js/3m_chall.js"></script>
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <style type="text/css">
+        a {
+            text-decoration: none
+        }
+    </style>
+
+    <audio id="audio" class="audio-player" preload="auto" display="none">
+        <source src="" type="audio/mpeg" />
+    </audio>
+</head>
+
+<body
+    style="max-width:100%; max-height:100%; left:0; right:0; top:0; bottom:0; margin:auto; overflow:auto; position:fixed;">
+    <div name="home">
+        <table height=20% width=100%>
+            <tr>
+                <td class="top-left" height=10% width=33.33% style="cursor:hand" onclick="location.href='./10.html'">
+                    2010<br>~2019</td>
+                <td class="top-cent" height=10% width=33.33% style="cursor:hand" onclick="location.href='./00.html'">
+                    2000<br>~2009</td>
+                <td class="top-right" height=10% width=33.33% style="cursor:hand" onclick="location.href='./90.html'">
+                    1990<br>~1999</td>
+            </tr>
+            <tr>
+                <td class="down-left" height=10% width=33.33% style="cursor:hand"
+                    onclick="location.href='./index.html'">시대별<br>차트</td>
+                <td class="down-cent" height=10% width=33.33% style="cursor:hand"
+                    onclick="location.href='./3m_challenge.html'">도전<br>지니어스</td>
+                <td class="down-right" height=10% width=33.33% style="cursor:hand"
+                    onclick="location.href='./ranking.html'">랭킹</td>
+            </tr>
+        </table>
+
+        <table height=20% width=100% cellspacing=1 background-color="black">
+            <tr height=5% width=100%>
+                <td id="heartcontainer" colspan="2" width=100%
+                    style="color:white; background-image: url(img/바탕화면.png);">
+                    <div id="myProgress">
+                        <div id="myBar" class="a">
+                            <div id="mytime"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr height=95% width=100%>
+                <td colspan="2" width=100% style="color:white;" id="quest">
+                    <div id="answerBoard"> </div>
+                    <div id="ask_gamestart" onclick="ask_gamestart()">게임 시작</div>
+                    <div id="question1" style="display:none">
+                        <div id="question-box">
+                            <table style="font-size: 0.6em; padding:2px 0px 0px 2px; width:100%; display:inline-block;">
+                                <tr>
+                                    <td width=47.5% style="text-align: left;">
+                                        <a id="Ath" href="javascript:void(0)" onclick="check_answer('a')"></a>
+                                    </td>
+                                    <td width=5%></td>
+                                    <td width=47.5% style="text-align: left;">
+                                        <a id="Bth" href="javascript:void(0)" onclick="check_answer('b')"></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width=47.5% style="text-align: left;">
+                                        <a id="Cth" href="javascript:void(0)" onclick="check_answer('c')"></a>
+                                    </td>
+                                    <td width=5%></td>
+                                    <td width=47.5% style="text-align: left;">
+                                        <a id="Dth" href="javascript:void(0)" onclick="check_answer('d')"></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="quizScore" style="display:none">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="play-container">
+            <table height=50% width=100% cellspacing=1 background-color="none">
+                <tr>
+                    <!--1행-->
+                    <td id="play" class="play" width=67.77% height=100% onclick="control(event)">
+                    </td>
+                    <td class="slider-background" width=33.33% height=100%>
+                        <div class="slider-container" style="align-items: center;">
+                            <span class="slider-bar"><span class="fill"></span></span>
+                            <input name="sec_selecor" orient="vertical" class="slider" id="a" type="range" min="0.5"
+                                max="2.0" step="0.5" value="0.5"
+                                oninput="document.getElementById('result').innerHTML=this.value;"
+                                onclick="myfunction()">
+                            <div id="result_container"><text id="result" style="color:white">0.5</text>[S]</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table height=10% width=100% cellspacing=1 background-color="none">
+            <tr>
+                <td width=67.77% height=100% style="color:white" id="nextsong_container">
+                    <div id="heartgage"></div>
+                    <p id="lefttime"></p><br>
+                    <div id="nextsong"> 다음곡으로 PASS 3/3</div>
+                </td>
+                <td class="next" width=33.33% height=100% onclick="next_random(event)">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="log">
+    </div>
+
+    <script type="text/javascript">
+        let audio_opt = {
+
+        };
+        let log = document.querySelector('#log');
+        log.style.position='fixed';
+        log.style.top = '0px';
+        log.style.left = '0px';
+        log.style.right = '0px';
+        log.style.background = 'black';
+        log.style.display="none";
+        log.addEventListener('click', ()=>{
+            log.innerHTML='';
+        })
+
+        var audio = document.getElementById("audio");
+        setInterval(()=>{
+            if(audio_opt.playing) {
+                let log = document.querySelector('#log');
+                log.textContent = audio.currentTime;
+                if(audio_opt.stopTime <= audio.currentTime) {
+                    delete audio_opt.playing;
+                    delete audio_opt.stopTime;
+                    audio.pause();
+                    audio.currentTime=0;
+                }
+            }
+        },1000/60);
+        let log_= function(str){
+            let log = document.querySelector('#log');
+            let row = document.createElement('div');
+            
+            row.innerText=Math.round(performance.now())+ ' : ' +str;
+            log.appendChild(row);
+
+        }
+
+        document.getElementById('a').value = 0.5;
+        document.getElementById('result').innerHTML = 0.5;
+        ts = 0.5;
+        var playtimer;
+        function myfunction() {
+            ts = document.getElementById('result').innerHTML;
+        }
+        function pause() {
+            let end_time = ts * 1000;
+            setTimeout(function () {
+                audio.pause();
+                audio.currentTime = 0;
+            }, end_time);
+        }
+        audio.addEventListener('playing', () => {
+            log_('playing');
+        });
+        audio.addEventListener('timeupdate', () => {
+            log_('timeupdate');
+        });
+        audio.addEventListener('loadeddata', () => {
+            log_('로딩완료');
+        });
+        audio.addEventListener('pause', () => {
+        });
+        audio.addEventListener('play', () => {
+        });
+
+        function control(e) {
+            log_('터치함');
+            audio.currentTime=0;
+            audio_opt.playing = true;
+            audio_opt.stopTime = Number(document.getElementById('result').innerHTML);
+            audio.play(); 
+        }
+        var year, rank, file, year_v, rank_v, title, initial = 0;
+        var err1_title, err1_year_v, err1_rank_v; //오답용 1
+        var err2_title, err2_year_v, err2_rank_v; //오답용 2
+        var err3_title, err3_year_v, err3_rank_v; //오답용 3
+
+        var generateRandom = function (min, max) {
+            var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
+            return ranNum;
+        }
+        random_song();
+        function random_song() {
+            //첫째 곡 랜덤
+            year_v = generateRandom(0, 29);
+            rank_v = generateRandom(0, 49);
+
+            err1_year_v = generateRandom(0, 29);
+            err2_year_v = generateRandom(0, 29);
+            err3_year_v = generateRandom(0, 29);
+            err1_rank_v = generateRandom(0, 49);
+            err2_rank_v = generateRandom(0, 49);
+            err3_rank_v = generateRandom(0, 49);
+
+            if ((err1_year_v == year_v) && (err1_year_v >= 1) && (err1_year_v <= 30)) {err1_year_v = err1_year_v - 1;}
+            if ((err1_year_v == year_v) && (err1_year_v == 0)) {err1_year_v = err1_year_v + 1;}
+            if ((err1_year_v == year_v) && (err1_year_v == 30)) {err1_year_v = err1_year_v - 1;}
+            if ((err2_year_v == year_v) && (err2_year_v >= 1) && (err2_year_v <= 30)) {err2_year_v = err2_year_v - 2;}
+            if ((err2_year_v == year_v) && (err2_year_v == 0)) {err2_year_v = err2_year_v + 2;}
+            if ((err2_year_v == year_v) && (err2_year_v == 30)) {err2_year_v = err2_year_v - 2;}
+            if ((err3_year_v == year_v) && (err3_year_v >= 1) && (err3_year_v <= 30)) {err3_year_v = err3_year_v - 3;}
+            if ((err3_year_v == year_v) && (err3_year_v == 0)) {err3_year_v = err3_year_v + 3;}
+            if ((err3_year_v == year_v) && (err3_year_v == 30)) {err3_year_v = err3_year_v - 3;}
+
+            if ((err1_rank_v == rank_v) && (err1_rank_v >= 1) && (err1_rank_v <= 49)) {err1_rank_v = err1_rank_v - 1;}
+            if ((err1_rank_v == rank_v) && (err1_rank_v == 0)) {err1_rank_v = err1_rank_v + 1;}
+            if ((err1_rank_v == rank_v) && (err1_rank_v == 49)) {err1_rank_v = err1_rank_v - 1;}
+            if ((err2_rank_v == rank_v) && (err2_rank_v >= 1) && (err2_rank_v <= 49)) {err2_rank_v = err2_rank_v - 2;}
+            if ((err2_rank_v == rank_v) && (err2_rank_v == 0)) {err2_rank_v = err2_rank_v + 2;}
+            if ((err2_rank_v == rank_v) && (err2_rank_v == 49)) {err2_rank_v = err2_rank_v - 2;}
+            if ((err3_rank_v == rank_v) && (err3_rank_v >= 1) && (err3_rank_v <= 49)) {err3_rank_v = err3_rank_v - 3;}
+            if ((err3_rank_v == rank_v) && (err3_rank_v == 0)) {err3_rank_v = err3_rank_v + 3;}
+            if ((err3_rank_v == rank_v) && (err3_rank_v == 49)) {err3_rank_v = err3_rank_v - 3;}
+
+            player_load();
+            err_load();
+        }
+    </script>
+
+    <script language="javascript"> //3분 챌린지용
+        var delay = 60; //시간설정
+        var correctAnswers;  //정답
+        var th = generateRandom(0, 3);
+        var q_num = 1;
+        var timer;
+        var layer;
+        var clock = delay;
+        var pre_clock;
+        var pre_width;
+        var score = 0;
+        var score_minus = 0;
+        var minus_time = 0;
+        var minus_width = 0;
+        var chance = 3;
+        var game_seq = 5;
+        var past_year;
+        var past_month;
+        var past_day;
+        var past_hour;
+        var past_min;
+        var past_sec;
+        var past_sec2;
+        var now_year;
+        var now_month;
+        var now_day;
+        var now_hour;
+        var now_min;
+        var now_sec;
+        var timediff_min;
+        var timediff_sec;
+        var temp_min;
+        var temp_sec;
+        var trip_min = 5;
+        var trip_sec = 60;
+        var game_st = 0;
+        var bouncer = 0;
+
+        if (game_st == 0) {
+            document.getElementById("audio").src = "";
+        }
+
+        if (localStorage.getItem('game_seq') == null) {game_seq = 5; localStorage.setItem('game_seq', game_seq);}
+
+        if (localStorage.getItem('game_seq') > 5) {game_seq = 5; localStorage.setItem('game_seq', game_seq);}
+        hearttimestart();
+
+        function hearttimestart() {
+
+            setInterval("hearttime()", 1000);
+
+            if (localStorage.getItem('game_seq') == 5) {
+                timeremove();
+            }
+
+            if ((localStorage.getItem('game_seq') == 4) && (localStorage.getItem('hearttime_year') == null)) {
+                timesave();
+            }
+        }
+        if ((localStorage.getItem('game_seq') != 0) && (document.getElementById('ask_gamestart') == "광고를 보고 하트를 충전하세요") && (game_st == 0)) {
+            document.all.answerBoard.innerHTML = "";
+            document.all.ask_gamestart.innerHTML = "게임 시작";
+        }
+        function hearttime() {
+            if (localStorage.getItem('game_seq') < 5) {
+                game_seq = localStorage.getItem('game_seq');
+                let now = new Date();
+                getpasttime();
+                now_sec = now.getDate() * 60 * 60 * 24 + now.getHours() * 60 * 60 + now.getMinutes() * 60 + now.getSeconds();
+                now_sec = now.getDate() * 60 * 60 * 24 + now.getHours() * 60 * 60 + now.getMinutes() * 60 + now.getSeconds();
+                past_sec2 = past_day * 60 * 60 * 24 + past_hour * 60 * 60 + past_min * 60 + parseInt(past_sec);
+
+                timediff_sec = (now_sec - past_sec2);
+                timediff_min = parseInt(timediff_sec / 60);
+                timediff_sec = -1 * (timediff_min * 60 - timediff_sec);
+
+                if (localStorage.getItem('timediff_min') == null) {
+                    temp_min = trip_min - timediff_min;
+                    temp_sec = trip_sec - timediff_sec;
+                }
+
+                if (localStorage.getItem('timediff_min') != null) {
+                    timediff_sec = (-1 * localStorage.getItem('timediff_sec') + localStorage.getItem('timediff_min') * 60);
+
+                    timediff_sec = timediff_sec + bouncer;
+                    bouncer++;
+                    timediff_min = parseInt(timediff_sec / 60);
+                    timediff_sec = -1 * (timediff_min * 60 - timediff_sec);
+                    temp_min = trip_min - timediff_min;
+                    temp_sec = trip_sec - timediff_sec;
+                    if (((temp_min < 0) && (temp_sec < 0)) || (temp_min < 0)) {
+                        bouncer = 0;
+                        //game_seq++;
+                        localStorage.setItem('game_seq', game_seq);
+                        localStorage.removeItem('timediff_min');
+                        localStorage.removeItem('timediff_sec');
+                        timeremove();
+                        timesave();
+                        getpasttime();
+                    }
+                }
+
+                document.all.lefttime.innerHTML = "&nbsp;" + temp_min + ':' + temp_sec;
+                if ((localStorage.getItem('game_seq') == 5) && (game_st == 0)) {
+                    console.log("??");
+                    document.all.lefttime.innerHTML = " ";
+                }
+
+                if (((temp_min < 1) && (temp_sec < 1)) || (temp_min < 0)) {
+                    game_seq++;
+                    localStorage.setItem('game_seq', game_seq);
+                    temp_min = null;
+                    temp_sec = null;
+                    timeremove();
+                    timesave();
+                    getpasttime();
+                    timereset();
+                    heart();
+                    if (localStorage.getItem('game_seq') > 4) {timeremove();}
+                    heart();
+                    document.all.lefttime.innerHTML = "";
+                    if ((localStorage.getItem('game_seq') == 0) && (game_st == 0)) {
+                        document.all.answerBoard.innerHTML = "";
+                        document.all.ask_gamestart.innerHTML = "게임 시작";
+                    }
+                    localStorage.setItem('game_seq', game_seq);
+                    if (localStorage.getItem('game_seq') > 5) {game_seq = 5; localStorage.setItem('game_seq', game_seq);}
+                }
+            }
+        }
+
+        if (localStorage.getItem('game_seq') != null) {
+            game_seq = localStorage.getItem('game_seq');
+        }
+        if (game_seq == 0) {
+            document.all.ask_gamestart.innerHTML = "";
+        }
+        heart();
+
+        //다음 곡 랜덤
+        function next_random(event) {
+            if (localStorage.getItem('game_seq') != 0) {
+                if (chance > 0) {
+                    chance--;
+                    document.all.nextsong.innerHTML = "다음곡으로 PASS" + " " + chance + "/3";
+                    random_song();
+                    clock = 0;
+                    clearTimeout(timer);
+                    document.getElementById('a').value = 0.5;
+                    document.getElementById('result').innerHTML = 0.5;
+                    ts = 0.5;
+                    hide_question();
+                }
+            }
+        }
+
+        function show_question() {
+            if (clock <= 0) {
+                document.all.mytime.innerHTML = 0;
+                document.all.quizScore.innerHTML = score + "점";
+                setTimeout("rank_IO()", 2000); // 이름 입력 창 호출
+                document.getElementById("audio").src = "";
+                document.all.quizScore.style.display = "inline";
+                elem.style.backgroundImage = "url('img/t0.png')";
+                elem.style.backgroundSize = "100% 100%"
+            }
+            else {
+                if (layer = eval("document.all.question" + 1)) {
+                    document.getElementById('a').value = 0.5;
+                    document.getElementById('result').innerHTML = 0.5;
+                    ts = 0.5;
+                    layer.style.display = "inline";
+                    hide_question();
+                }
+            }
+        }
+
+        var elem = document.getElementById("myBar");
+        var width = 100;
+        var init = 0;
+        var init2 = 0;
+
+        function hide_question() {
+            if (clock > 0) {
+                document.all.mytime.innerHTML = clock;
+
+                if (th == 0) {
+                    document.all.Ath.innerHTML = '1) ' + title;
+                    document.all.Bth.innerHTML = '2) ' + err1_title;
+                    document.all.Cth.innerHTML = '3) ' + err2_title;
+                    document.all.Dth.innerHTML = '4) ' + err3_title;
+                    correctAnswers = "a";
+                }
+                if (th == 1) {
+                    document.all.Ath.innerHTML = '1) ' + err1_title;
+                    document.all.Bth.innerHTML = '2) ' + title;
+                    document.all.Cth.innerHTML = '3) ' + err2_title;
+                    document.all.Dth.innerHTML = '4) ' + err3_title;
+                    correctAnswers = "b";
+                }
+                if (th == 2) {
+                    document.all.Ath.innerHTML = '1) ' + err1_title;
+                    document.all.Bth.innerHTML = '2) ' + err2_title;
+                    document.all.Cth.innerHTML = '3) ' + title;
+                    document.all.Dth.innerHTML = '4) ' + err3_title;
+                    correctAnswers = "c";
+                }
+                if (th == 3) {
+                    document.all.Ath.innerHTML = '1) ' + err1_title;
+                    document.all.Bth.innerHTML = '2) ' + err2_title;
+                    document.all.Cth.innerHTML = '3) ' + err3_title;
+                    document.all.Dth.innerHTML = '4) ' + title;
+                    correctAnswers = "d";
+                }
+
+                clock--; //--해줘야함
+                pre_clock = clock;
+                if (init == 1) {
+                    if (clock < delay / 20 * 19) {
+                        elem.style.backgroundImage = "url('img/t19.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 18) {
+                        elem.style.backgroundImage = "url('img/t18.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 17) {
+                        elem.style.backgroundImage = "url('img/t17.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 16) {
+                        elem.style.backgroundImage = "url('img/t16.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 15) {
+                        elem.style.backgroundImage = "url('img/t15.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 14) {
+                        elem.style.backgroundImage = "url('img/t14.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 13) {
+                        elem.style.backgroundImage = "url('img/t13.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 12) {
+                        elem.style.backgroundImage = "url('img/t12.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 11) {
+                        elem.style.backgroundImage = "url('img/t11.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 10) {
+                        elem.style.backgroundImage = "url('img/t10.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 9) {
+                        elem.style.backgroundImage = "url('img/t9.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 8) {
+                        elem.style.backgroundImage = "url('img/t8.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 7) {
+                        elem.style.backgroundImage = "url('img/t7.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 6) {
+                        elem.style.backgroundImage = "url('img/t6.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 5) {
+                        elem.style.backgroundImage = "url('img/t5.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 4) {
+                        elem.style.backgroundImage = "url('img/t4.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 3) {
+                        elem.style.backgroundImage = "url('img/t3.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 2) {
+                        elem.style.backgroundImage = "url('img/t2.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 1) {
+                        elem.style.backgroundImage = "url('img/t1.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    if (clock < delay / 20 * 0) {
+                        elem.style.backgroundImage = "url('img/t0.png')";
+                        elem.style.backgroundSize = "100% 100%";
+                    }
+                    //elem.style.width = width + "%"; // Timerbar 줄임
+                    initiation();
+                }
+                if (init == 0) {width = 100; elem.style.backgroundImage = "url('img/t20.png')"; elem.style.backgroundSize = "100% 100%"; init = 1;}
+                timer = setTimeout("hide_question()", 1000);
+            } else {
+                clearTimeout(timer);
+                document.all.answerBoard.innerHTML = " ";
+                //width=pre_width+minus_width;
+                clock = pre_clock + minus_time;
+                layer.style.display = "none";
+                q_num++;
+                th = generateRandom(0, 3);
+                random_song();
+                show_question();
+            }
+        }
+
+        function check_answer(answer) {
+            if (correctAnswers == answer) {
+                if (ts == 0.5) {score = score + 280;}
+                else if (ts == 1.0) {score = score + 100;}
+                else if (ts == 1.5) {score = score + 50;}
+                else if (ts == 2.0) {score = score + 20;}
+                minus_time = 1;
+                //minus_width=1;
+                document.all.question1.style.display = "none";
+                document.all.answerBoard.innerHTML = "<font color=blue><b>정답입니다.</b></font>";
+            } else {
+                score_minus--;
+                minus_time = -3;
+                //minus_width=(-100/delay)*5;
+                document.all.question1.style.display = "none";
+                document.all.answerBoard.innerHTML = "<font color=red><b>오답입니다.</b></font>";
+            }
+            clock = 0;
+            clearTimeout(timer);
+
+            timer = setTimeout("hide_question()", 700);
+        }
+        function initiation() {
+            if (clock > 100) {clock = 100;}
+        }
+        function erase_minustime() {
+            document.all.minus_sec.innerHTML = "";
+        }
+        function ask_gamestart() {
+            game_seq--;
+            document.all.ask_gamestart.innerHTML = "";
+            if (game_seq > -1) {
+                game_st = 1;
+                heart();
+                localStorage.setItem('game_seq', game_seq);
+                show_question();
+                hearttimestart();
+                document.all.lefttime.innerHTML = "";
+            }
+        }
+
+        function heart() {
+            if (game_seq == 0) {
+                document.getElementById('heartgage').style.backgroundImage = "url('img/heart00.png')"; document.getElementById('heartgage').style.backgroundSize = "100% 100%";
+                if (localStorage.getItem('game_seq') == 0) {
+                    document.all.answerBoard.innerHTML = "<font color=blue><b>광고를 보고 하트를 충전하세요</b></font>";
+                }
+            }
+            if (game_seq == 1) {document.getElementById('heartgage').style.backgroundImage = "url('img/heart01.png')"; document.getElementById('heartgage').style.backgroundSize = "100% 100%";}
+            if (game_seq == 2) {document.getElementById('heartgage').style.backgroundImage = "url('img/heart02.png')"; document.getElementById('heartgage').style.backgroundSize = "100% 100%";}
+            if (game_seq == 3) {document.getElementById('heartgage').style.backgroundImage = "url('img/heart03.png')"; document.getElementById('heartgage').style.backgroundSize = "100% 100%";}
+            if (game_seq == 4) {document.getElementById('heartgage').style.backgroundImage = "url('img/heart04.png')"; document.getElementById('heartgage').style.backgroundSize = "100% 100%";}
+            if (game_seq == 5) {
+                document.getElementById('heartgage').style.backgroundImage = "url('img/heart05.png')"; document.getElementById('heartgage').style.backgroundSize = "100% 100%";
+                localStorage.removeItem('timediff_min');
+                localStorage.removeItem('timediff_sec');
+            }
+        }
+
+        var id;
+        function rank_IO() {
+            var inputString = prompt('랭킹을 등록하시겠습니까?', '이름(닉네임)을 입력해주세요')
+            id = alert(inputString + '님의 랭킹이 등록되었습니다.');
+            if (inputString != null) {
+                localStorage.setItem('myid', inputString);
+            }
+            createFile(inputString);
+        }
+        function createFile(id) // 랭킹 저장
+        {
+            //text area에 기록된 text를 txt에 저장
+            var txt = id;
+            var k;
+            var i;
+            if ((id != null) && (id != "이름(닉네임)을 입력해주세요")) {
+                $.ajax({
+                    url: "https://script.google.com/macros/s/AKfycbyHjTu94vK6GFhjyIfbb1OKLYSWyA9ZNGJXNPTrM7VmGpFoC5rh/exec",
+                    data: {Nick: id, Score: 3120},
+                    type: "POST"
+                });
+            }
+            setTimeout(function () {rankcall();}, 1000);
+        }
+
+        function rankcall() {
+            var nick2 = new Array;
+            var score2 = new Array;
+            var GSSurl = "https://spreadsheets.google.com/feeds/list/1Y7n0HUAnJ13u-6B6m0bo4E3hXjdcsgLx_-Qgj59RCsI/2/public/basic?alt=json-in-script&callback=?";
+            $.getJSON(GSSurl, function (data) {
+                var entry = data.feed.entry;//구글 스프레드 시트의 모든 내용은 feed.entry에 담겨있습니다.
+                for (i in entry) { // 각 행에대해 아래 스크립트를 실행합니다.
+                    nick2[i] = (entry[i].title.$t);// .title.$t 에는 1행의 내용이 들어있습니다.
+                    score2[i] = (entry[i].content.$t);// .content.$t 에는 나머지행의 데이터가 header정보와 함께 들어있습니다.
+
+                    if (localStorage.getItem('myid') == nick2[i]) {
+                        if (i == 0) {
+                            k = 0;
+                            alert('축하합니다 뮤직 지니어스에 등극하셨습니다.\n명예의 전당에 사진을 업로드 하시겠습니까?');
+                        }
+                        if (i == 1) {
+                            k = 1;
+                            alert('축하합니다 2위에 등극하셨습니다.\n명예의 전당에 사진을 업로드 하시겠습니까?');
+                        }
+                        if (i == 2) {
+                            k = 2;
+                            alert('축하합니다 3위에 등극하셨습니다.\n명예의 전당에 사진을 업로드 하시겠습니까?');
+                        }
+                    }
+                }
+            });
+            initt = 1;
+        }
+
+        function timeremove() {
+            localStorage.removeItem('hearttime_year');
+            localStorage.removeItem('hearttime_month');
+            localStorage.removeItem('hearttime_day');
+            localStorage.removeItem('hearttime_hour');
+            localStorage.removeItem('hearttime_min');
+            localStorage.removeItem('hearttime_sec');
+        }
+        function timesave() {
+            localStorage.setItem('hearttime_year', new Date().getFullYear());
+            localStorage.setItem('hearttime_month', new Date().getMonth());
+            localStorage.setItem('hearttime_day', new Date().getDate());
+            localStorage.setItem('hearttime_hour', new Date().getHours());
+            localStorage.setItem('hearttime_min', new Date().getMinutes());
+            localStorage.setItem('hearttime_sec', new Date().getSeconds());
+        }
+        function getpasttime() {
+            past_year = localStorage.getItem('hearttime_year');
+            past_month = localStorage.getItem('hearttime_month');
+            past_day = localStorage.getItem('hearttime_day');
+            past_hour = localStorage.getItem('hearttime_hour');
+            past_min = localStorage.getItem('hearttime_min');
+            past_sec = localStorage.getItem('hearttime_sec');
+        }
+
+        var endtostart = 0;
+        function timereset() {
+            let now = new Date();
+
+            if (now.getFullYear() - past_year > 0) {
+                game_seq = 5; localStorage.setItem('game_seq', game_seq);
+                timeremove();
+                timesave();
+                getpasttime();
+                heart();
+            }
+            if (now.getMonth() - past_month > 0) {
+                game_seq = 5; localStorage.setItem('game_seq', game_seq);
+                timeremove();
+                timesave();
+                getpasttime();
+                heart();
+            }
+            if (now.getDate() - past_day > 1) {
+                game_seq = 5; localStorage.setItem('game_seq', game_seq);
+                timeremove();
+                timesave();
+                getpasttime();
+                heart();
+            }
+            if (now.getHours() - past_hour >= 1) {
+                game_seq = 5; localStorage.setItem('game_seq', game_seq);
+                timeremove();
+                timesave();
+                getpasttime();
+                heart();
+            }
+
+            if (timediff_min > (trip_min + 1.1)) {
+                if (timediff_min > (trip_min + 1.1) * 2) {
+                    if (timediff_min > (trip_min + 1.1) * 3) {
+                        if (timediff_min > (trip_min + 1.1) * 4) {
+                            if (timediff_min > (trip_min + 1.1) * 5) {
+                                document.all.lefttime.innerHTML = "";
+                                endtostart = endtostart + 1;
+                                timediff_min = timediff_min - trip_min;
+                                timediff_sec = timediff_sec - trip_sec;
+                            }
+                            endtostart = endtostart + 1;
+                            timediff_min = timediff_min - trip_min;
+                            timediff_sec = timediff_sec - trip_sec;
+                        }
+                        endtostart = endtostart + 1;
+                        timediff_min = timediff_min - trip_min;
+                        timediff_sec = timediff_sec - trip_sec;
+                    }
+                    endtostart = endtostart + 1;
+                    timediff_min = timediff_min - trip_min;
+                    timediff_sec = timediff_sec - trip_sec;
+                }
+                endtostart = endtostart + 1;
+                timediff_min = timediff_min - trip_min;
+                timediff_sec = timediff_sec - trip_sec;
+            }
+
+            if (endtostart > 4) {game_seq = 5; localStorage.setItem('game_seq', game_seq);}
+            else if (endtostart > 3) {game_seq = 4; localStorage.setItem('game_seq', game_seq);}
+            else if (endtostart > 2) {game_seq = 3; localStorage.setItem('game_seq', game_seq);}
+            else if (endtostart > 1) {game_seq = 2; localStorage.setItem('game_seq', game_seq);}
+            else if (endtostart > 0) {game_seq = 1; localStorage.setItem('game_seq', game_seq);}
+            //timeremove();
+            if (endtostart != 0) {
+                localStorage.setItem('timediff_min', timediff_min);
+                localStorage.setItem('timediff_sec', timediff_sec);
+                endtostart = 0;
+            }
+            if (localStorage.getItem('game_seq') == 5) {
+                localStorage.removeItem('timediff_min');
+                localStorage.removeItem('timediff_sec');
+            }
+            game_seq = localStorage.getItem('game_seq');
+            heart();
+            if (localStorage.getItem('game_seq') > 5) {game_seq = 5; localStorage.setItem('game_seq', game_seq);}
+            if (localStorage.getItem('game_seq') == 5) {document.all.lefttime.innerHTML = " ";}
+        }
+    </script>
+    <script>
+        $(function () {
+            $('html').removeClass('no-js');
+        });
+    </script>
+
+</body>
+<style>
+    .down-cent {
+        background: url('img/5.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        color: red;
+        border-radius: 0px 0px 0px 0px/ 0px 0px 0px 0px;
+    }
+</style>
+
+</html>

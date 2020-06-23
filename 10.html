@@ -1,0 +1,277 @@
+<html lang="ko" class="no-js">
+
+<head>
+    <title>2010~현재</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/melonchart(10~19).js"></script>
+    <!--<script type="text/javascript" src="js/melonchart(current).js"></script>-->
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="js/youtube.js"></script>
+    <audio id="audio" class="audio-player" preload="auto" display="none">
+        <source src="" type="audio/mpeg" />
+    </audio>
+</head>
+
+<body
+    style="max-width:100%; max-height:100%; left:0; right:0; top:0; bottom:0; margin:auto; overflow:auto; position:fixed;">
+    <div name="home">
+        <table height=20% width=100%>
+            <tr>
+                <td class="top-left" width=33.33% style="cursor:hand" onclick="location.href='./10.html'">2010<br>~2019
+                </td>
+                <td class="top-cent" width=33.33% style="cursor:hand" onclick="location.href='./00.html'">2000<br>~2009
+                </td>
+                <td class="top-right" width=33.33% style="cursor:hand" onclick="location.href='./90.html'">1990<br>~1999
+                </td>
+            </tr>
+            <tr>
+                <td class="down-left" width=33.33% style="cursor:hand" onclick="location.href='./index.html'">시대별<br>차트
+                </td>
+                <td class="down-cent" width=33.33% style="cursor:hand" onclick="location.href='./3m_challenge.html'">
+                    도전<br>지니어스</td>
+                <td class="down-right" width=33.33% style="cursor:hand" onclick="location.href='./ranking.html'">랭킹</td>
+            </tr>
+        </table>
+
+        <table height=20% width=100% cellspacing=1 background-color="black">
+            <tr height=33% width=100%>
+                <td colspan="2" width=100% style="color:white;" id="description">
+                    2010년대 인기가요 랜덤 플레이
+                </td>
+            </tr>
+            <tr height=67% width=100%>
+                <td id="print" height=100% width=67.77%>
+                </td>
+                <td class="answer" height=100% width=33.33% style="color:white;" onclick="answer(event)">
+                    정 &nbsp;답<br>확 &nbsp;인
+                </td>
+            </tr>
+        </table>
+        <div class="play-container">
+            <table height=50% width=100% cellspacing=1 background-color="none">
+                <tr>
+                    <!--1행-->
+                    <td id="play" class="play" width=67.77% height=100% onclick="control(event)">
+                    </td>
+                    <td class="slider-background" width=33.33% height=100%>
+                        <div class="slider-container" style="align-items: center;">
+                            <span class="slider-bar"><span class="fill"></span></span>
+                            <input name="sec_selecor" orient="vertical" class="slider" id="a" type="range" min="0.5"
+                                max="2.0" step="0.5" value="0.5"
+                                oninput="document.getElementById('result').innerHTML=this.value;"
+                                onclick="myfunction()">
+                            <div id="result_container"><text id="result" style="color:white">0.5</text>[S]</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table height=10% width=100% cellspacing=1 background-color="none">
+            <tr>
+                <td width=67.77% height=100% style="color:white" id="nextsong_container" onclick="youtube()">노래 들으러
+                    가기<br>(YOUTUBE로 이동합니다)
+                </td>
+                <td class="next" width=33.33% height=100% onclick="next_random(event)">
+                </td>
+            </tr>
+        </table>
+        <div id="log">
+        </div>
+    
+        <script type="text/javascript">
+            let audio_opt = {
+    
+            };
+            let log = document.querySelector('#log');
+            log.style.position='fixed';
+            log.style.top = '0px';
+            log.style.left = '0px';
+            log.style.right = '0px';
+            log.style.background = 'black';
+            log.style.display="none";
+            log.addEventListener('click', ()=>{
+                log.innerHTML='';
+            })
+    
+            var audio = document.getElementById("audio");
+            setInterval(()=>{
+                if(audio_opt.playing) {
+                    let log = document.querySelector('#log');
+                    log.textContent = audio.currentTime;
+                    if(audio_opt.stopTime <= audio.currentTime) {
+                        delete audio_opt.playing;
+                        delete audio_opt.stopTime;
+                        audio.pause();
+                        audio.currentTime=0;
+                    }
+                }
+            },1000/60);
+            let log_= function(str){
+                let log = document.querySelector('#log');
+                let row = document.createElement('div');
+                
+                row.innerText=Math.round(performance.now())+ ' : ' +str;
+                log.appendChild(row);
+    
+            }
+    
+            document.getElementById('a').value = 0.5;
+            document.getElementById('result').innerHTML = 0.5;
+            ts = 0.5;
+            var playtimer;
+            function myfunction() {
+                ts = document.getElementById('result').innerHTML;
+            }
+            function pause() {
+                let end_time = ts * 1000;
+                setTimeout(function () {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }, end_time);
+            }
+            audio.addEventListener('playing', () => {
+                log_('playing');
+            });
+            audio.addEventListener('timeupdate', () => {
+                log_('timeupdate');
+            });
+            audio.addEventListener('loadeddata', () => {
+                log_('로딩완료');
+            });
+            audio.addEventListener('pause', () => {
+            });
+            audio.addEventListener('play', () => {
+            });
+    
+            function control(e) {
+                log_('터치함');
+                audio.currentTime=0;
+                audio_opt.playing = true;
+                audio_opt.stopTime = Number(document.getElementById('result').innerHTML);
+                audio.play(); 
+            }
+
+        var year, rank, file, year_v, rank_v, title, initial = 0;
+        var generateRandom = function (min, max) {
+            var ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
+            return ranNum;
+        }
+        //첫째 곡 랜덤
+        if (initial == 0) {
+            year_v = generateRandom(0, 10);
+            rank_v = generateRandom(0, 49);
+            player_load();
+            initial = 1;
+            console.log(year_v);
+            console.log(rank_v);
+        }
+
+        //다음 곡 랜덤
+        function next_random(event) {
+            document.getElementById('print').innerHTML = " ";
+            year_v = generateRandom(0, 9);
+            rank_v = generateRandom(0, 49);
+            document.getElementById('a').value = 0.5;
+            document.getElementById('result').innerHTML = 0.5;
+            player_load();
+        }
+
+        function player_load() {
+            if (year_v == 0) { //2010년
+                title = onezero[rank_v];
+                u_src = onezero_u[rank_v];
+                document.getElementById('audio').src = 'audio/2010/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 1) { //2011년
+                title = oneone[rank_v];
+                u_src = oneone_u[rank_v];
+                document.getElementById('audio').src = 'audio/2011/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 2) { //2012년
+                title = onetwo[rank_v];
+                u_src = onetwo_u[rank_v];
+                document.getElementById('audio').src = 'audio/2012/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 3) { //2013년
+                title = onethree[rank_v];
+                u_src = onethree_u[rank_v];
+                document.getElementById('audio').src = 'audio/2013/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 4) { //2014년
+                title = onefour[rank_v];
+                u_src = onefour_u[rank_v];
+                document.getElementById('audio').src = 'audio/2014/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 5) { //2015년
+                title = onefive[rank_v];
+                u_src = onefive_u[rank_v];
+                document.getElementById('audio').src = 'audio/2015/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 6) { //2016년
+                title = onesix[rank_v];
+                u_src = onesix_u[rank_v];
+                document.getElementById('audio').src = 'audio/2016/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 7) { //2017년
+                title = oneseven[rank_v];
+                u_src = oneseven_u[rank_v];
+                document.getElementById('audio').src = 'audio/2017/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 8) { //2018년
+                title = oneeight[rank_v];
+                u_src = oneeight_u[rank_v];
+                document.getElementById('audio').src = 'audio/2018/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 9) { //2019년
+                title = onenine[rank_v];
+                u_src = onenine_u[rank_v];
+                document.getElementById('audio').src = 'audio/2019/' + title + '.mp3';
+                audio.load();
+            }
+            if (year_v == 10) { //2020년
+             //   title = current[rank_v];
+             //   u_src = current_u[rank_v];
+             //   document.getElementById('audio').src = 'audio/2020/' + title + '.mp3';
+             //   audio.load();
+            }
+        }
+
+        //정답화면
+        function answer(event) {
+            if (title == undefined) {title = " ";}
+            document.getElementById('print').innerHTML = title;
+        }
+        //유튜브
+        function youtube() {
+            location.href = u_src;
+            console.log(u_src);
+        }
+    </script>
+    <script>
+        $(function () {
+            $('html').removeClass('no-js');
+        });
+    </script>
+</body>
+<style>
+    .top-left {
+        background: url('img/1.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        color: red;
+        border-radius: 0px 0px 0px 0px/ 0px 0px 0px 0px;
+    }
+</style>
+
+</html>

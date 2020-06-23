@@ -1,0 +1,337 @@
+.no-js{display:none;}
+#myProgress{
+width: 100%;
+background-color: black;
+}
+#myBar{
+position:absolute;
+width: 100%;
+height: 70;
+background-image:url("../img/t20.png");
+background-size: 100% 100%;
+}
+#mytime{
+    font-size: 1em;
+    font-weight:bold;
+    padding:1% 50% 0% 47%;
+    text-align: center;
+    color:blue;
+}
+html{
+    touch-action: manipulation;
+    background-size: 100% 100%;
+    color:white;
+    font-family: 'Jua', sans-serif;
+    font-size:1em;
+}
+td{
+    font-family: 'Jua', sans-serif;
+    font-size:1.3em;
+    text-align: center;
+}
+option,select{
+    font-family: 'Jua', sans-serif;
+    font-size:1.5em;
+}
+select{
+    -webkit-appearance:none;
+    -moz-appearance: none;
+    appearance:none;
+    background: url('http://cfile7.uf.tistory.com/image/2225203756944C371A093B') no-repeat 95% 50%;
+    width:85%;
+    padding: 0% 31%;
+    height:80%;
+    font-size:large;
+    text-align: center;
+    border:0%;
+    color:rgb(139, 139, 139);
+    border-radius:15px;
+    border:0px;
+}
+
+tr{font-size:2em; text-align:center;}
+table{
+    border: 0%;
+    border-collapse:collapse;
+}
+.slider-container{
+    position: relative;
+    height:100%;
+    width:100%;
+}  
+.slider-container .slider{
+    position: absolute;
+    /*z-index:3;*/
+    left:34%;
+    top:45%;
+    -webkit-appearance: none;
+    margin:0;
+    width:170%;
+    height:0%;
+    outline:none;
+    transform:rotate(90deg) translate(-50%, -50%);
+    transform-origin: 0 0;   
+}
+.slider-container .slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    background-color: white;
+    height:80px;
+    width:60px;
+    background:url('../img/컨트롤 버튼1.png');
+    background-size:100%;
+    transform: rotate(-90deg);
+}
+.slider-background{
+    position: relative;
+    background: url('../img/11.png');background-repeat : no-repeat;background-position:top;
+    background-size:100% 100%;
+    align-items: center;
+    text-align: center;
+}
+
+.top-left{
+    padding: 4% 0% 2% 3%;
+    text-align: center;
+    background: url('../img/1.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    color:white;
+}
+.top-cent{
+    padding:4% 7% 2% 7%;
+    text-align: center;
+    background: url('../img/2.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    color:white;
+}
+.top-right{
+    padding:4% 3% 2% 0%;
+    text-align: center;
+    background: url('../img/3.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    color:white;
+}
+
+.down-left{
+    padding:2% 0% 2% 3%;
+    text-align: center;
+    background: url('../img/4.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    color:white;
+}
+.down-cent{
+    padding:2% 7% 2% 7%;
+    text-align: center;
+    background: url('../img/5.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    color:white;
+}
+.down-right{
+    padding:2% 3% 2% 0%;
+    text-align: center;
+    background: url('../img/6.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    color:white;
+}
+#description{
+    background-image: url('../img/7.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    font-size: 1.3em;
+}
+#print{
+    position:relative;
+    background-image: url('../img/8.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    text-align:center;
+    padding: 0% 5% 0% 5%;
+}
+#result_container{
+    position:absolute;
+    top:88%;
+    width:100%;
+    text-align: center;
+    align-items: center;
+}
+.answer{
+    position:relative;
+    font-size:1.3em;
+    background-image: url('../img/9.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+}
+.answerBoard{
+    position:absolute;
+    top:10%;
+}
+#quest{
+    background-image: url('../img/8-2.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+}
+#question1{
+    font-size: 0.7em;
+    text-decoration:none;
+    text-align:center;
+}
+#question-box{
+    display:inline-block;    
+    width:90%;
+    margin: 1% 0% 1% 0%;
+}
+#ask_gamestart{
+    color:blue;
+    font-size: 1.5em;
+    text-decoration:none;
+    text-align:center;
+    display:inline-block; 
+}
+.play{
+    touch-action: manipulation;
+    position:relative;
+    background-image: url('../img/10.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+}
+#nextsong_container{
+    position:relative;
+    background-image: url('../img/8.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+    font-size:1.3em;
+}
+#nextsong{
+    position:relative;
+    
+}
+.next{
+    position:relative;
+
+    background-image: url('../img/13.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+}
+#rankingboard{
+    text-align:center;
+    width:100%;
+}
+#rankingboard1_1{
+    text-align:center;
+    width:100%;
+    border-collapse: collapse;
+    padding: 0;
+    margin:0;
+    border-spacing: 0;
+}
+.myranktables{
+    background-image: url('../img/7-3.png');
+    background-size:100% 100%;
+}
+.myranktables1{
+    background-image: url('../img/7-3.png');background-repeat : no-repeat;background-position: center;
+    background-size:100% 100%;
+}
+#rankingboard2{
+    text-align:center;
+    width:100%;
+    border-collapse: collapse;
+    padding: 0;
+    margin:0;
+    border-spacing: 0;
+}
+#rankingboard3{
+    text-align:center;
+    width:100%;
+    border-collapse: collapse;
+    padding: 0;
+    margin:0;
+    border-spacing: 0;
+    font-size: 1.3em;
+}
+#rankingboard4{
+    text-align:center;
+    width:100%;
+    border-collapse: collapse;
+    padding: 0;
+    margin:0;
+    border-spacing: 0;
+}
+#MusicGenius{
+    font-size:1.6em;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    color:white;
+}
+#one{
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size:1.6em;
+    color:white;
+}
+#one_score{
+    margin: -20 0 0 0;
+    padding: 0 0 0 0;
+    font-size:1.2em;
+    color:white;
+}
+p{
+    font-size:0.6em;
+    padding: 0 0 0 0;
+    border-collapse: collapse;
+    display:inline-block;    
+    margin: 0% 0% 0% 0%;
+}
+#eightrank{
+    font-size:1.2em;
+    text-align: right;
+    color:yellow;
+}
+#eight{
+    font-size:1.2em;
+    color:yellow;
+    display:inline-block;
+    text-align: left;
+}
+#eightscore{
+    font-size:1.2em;
+    text-align: left;
+    color:yellow;
+}
+
+#two,#three,#two_sc,#three_sc{
+    margin:0;
+    padding:0;
+    border-collapse: collapse;
+    display:block;
+    font-size:1.2em;
+    text-align: left;
+}
+#three,#three_sc{
+    padding-bottom: 50px;
+}
+pp{
+    font-size:0.9em;
+    margin:0;
+    padding:0;
+    border-collapse: collapse;
+    display:block;
+    text-align: left;
+}
+
+#lefttime{
+    position: absolute;
+    color:white;
+    font-size:0.9em;
+    text-align: center;
+    margin-left:0px;
+    padding-top:3px;
+}
+#heartcontainer{
+    display: table-cell;
+    vertical-align: middle;
+}
+#heartgage{
+    height:45px;
+    width:45%;
+    display:inline-block;  
+    background-image: url("../img/heart1.png");
+    background-size: 100% 100%;
+}
+#Ath,#Bth,#Cth,#Dth{
+    text-align:left;
+    color:yellow;
+    display:inline-block;
+}
